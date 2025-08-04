@@ -34,6 +34,7 @@ class PostSerializer(serializers.ModelSerializer):
             'post_comments_count',
             'me_liked'
         ]
+        extra_kwargs = {"image": {"required": False}}
 
     @staticmethod
     def get_post_likes_count(obj):
@@ -55,19 +56,22 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
-
-
+    author = UserSerializer(read_only=True)
+    replies = serializers.SerializerMethodField()
+    me_liked = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
     class Meta:
         model = PostComment
         fields = [
             'id',
             'author',
             'comment',
+            'post',
             'created_time',
             'parent',
             'replies',
             'me_liked',
-            'Likes_count'
+            'likes_count'
         ]
 
     def get_replies(self, obj):

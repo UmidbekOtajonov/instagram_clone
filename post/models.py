@@ -53,7 +53,7 @@ class PostLike(BaseModel):
 
 class CommentLike(BaseModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.ForeignKey(PostComment, on_delete=models.CASCADE)
+    comment = models.ForeignKey(PostComment, on_delete=models.CASCADE, related_name='likes')
 
     class Meta:
         constraints = [
